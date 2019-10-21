@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -20,7 +21,9 @@ public class Cart {
 	private String email;
 	private LocalDate creationDate;
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name="product_id")
+	@JoinTable(name = "cart_product", 
+    joinColumns = { @JoinColumn(name = "fk_cart") }, 
+    inverseJoinColumns = { @JoinColumn(name = "fk_product") })
 	private Set<Product> products;
 	private BigDecimal total;
 	private String status;

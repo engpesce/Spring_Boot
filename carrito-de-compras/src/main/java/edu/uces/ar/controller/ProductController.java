@@ -29,7 +29,7 @@ public class ProductController {
 		return new ResponseEntity<>(productRepo.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Optional<Product>> getProduct(@PathVariable long id) {
 		return new ResponseEntity<>(productRepo.findById(id), HttpStatus.OK);
 	}
