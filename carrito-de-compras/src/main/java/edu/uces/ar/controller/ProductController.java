@@ -1,42 +1,46 @@
 package edu.uces.ar.controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.uces.ar.model.Product;
-import edu.uces.ar.repository.ProductRepository;
+import edu.uces.ar.model.dto.ProductDTO;
+import edu.uces.ar.service.ProductService;
 
 @RestController
+@Validated
 public class ProductController {
 	
-	private final ProductRepository productRepo;
+	private final ProductService service;
 	
-	public ProductController(ProductRepository productRepo) {
+	public ProductController(ProductService service) {
 		super();
-		this.productRepo = productRepo;
+		this.service = service;
 	}
 
-	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ResponseEntity<List<Product>> getProducts() {
-		return new ResponseEntity<>(productRepo.findAll(), HttpStatus.OK);
+	@GetMapping(value = "/products")
+	public ResponseEntity<List<ProductDTO>> getProducts() {
+		return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<Product>> getProduct(@PathVariable long id) {
-		return new ResponseEntity<>(productRepo.findById(id), HttpStatus.OK);
+
+	@GetMapping(value = "/products/{id}")
+	public ResponseEntity<ProductDTO> getProduct(@PathVariable long id) {
+		return new ResponseEntity<>(service.getProductByProductId(id), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/products", method = RequestMethod.POST)
-	public ResponseEntity<Object> postProduct(@RequestBody Product product) {
-		productRepo.save(product);
-		return new ResponseEntity<>("Product created successfully", HttpStatus.CREATED);
+
+	@PostMapping(path = "/products")
+	public ResponseEntity<Object> postProduct(@Valid @RequestBody ProductDTO productDTO) {
+		Long id = service.putProduct(productDTO);
+		return new ResponseEntity<>("Product created successfully. Id: " + id, HttpStatus.CREATED);
 	}
+
 }

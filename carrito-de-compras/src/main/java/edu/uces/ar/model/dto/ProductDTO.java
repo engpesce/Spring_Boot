@@ -1,20 +1,18 @@
-package edu.uces.ar.model;
+package edu.uces.ar.model.dto;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
-@Entity
-public class Product {
+public class ProductDTO {
 
-	private @Id @GeneratedValue Long id;
+	private Long id;
 	private String description;
 	private BigDecimal unitPrice;
+	@Min(1)
 	private Integer stock;
 	
-	public Product() {
+	public ProductDTO() {
 		super();
 	}
 
