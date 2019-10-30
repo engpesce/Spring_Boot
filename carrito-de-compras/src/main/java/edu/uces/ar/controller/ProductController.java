@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,10 +38,16 @@ public class ProductController {
 		return new ResponseEntity<>(service.getProductByProductId(id), HttpStatus.OK);
 	}
 
+	@PutMapping(value = "/products/{id}")
+	public ResponseEntity<Object> putProduct(@Valid @RequestBody ProductDTO productDTO) {
+		Long id = service.putProduct(productDTO);
+		return new ResponseEntity<>("Product created successfully. Id: " + id, HttpStatus.CREATED);
+	}
+	
 	@PostMapping(path = "/products")
 	public ResponseEntity<Object> postProduct(@Valid @RequestBody ProductDTO productDTO) {
 		Long id = service.putProduct(productDTO);
-		return new ResponseEntity<>("Product created successfully. Id: " + id, HttpStatus.CREATED);
+		return new ResponseEntity<>("Product updated successfully. Id: " + id, HttpStatus.CREATED);
 	}
 
 }

@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Productos</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden;">
+
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Id
+              </th>
+              <th>
+                Descripción
+              </th>
+              <th>
+                Precio Unitario
+              </th>
+              <th>
+                Stock Actual
+              </th>
+              <th class="text-right">
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                  <td>{{product.id}}</td>
+                  <td>{{product.description }}</td>
+                  <td>{{product.unitPrice}}</td>
+                  <td>{{product.stock}}</td>
+                  <td>
+                    <div class="btn-group flex-btn-group-container">
+                      <div style="padding-left: 5px">
+                          <a class="btn btn-sm btn-outline-success btn-round btn-icon" title="Editar" routerLink="/products/edit/{{ product.id }}">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                      </div>
+                      <div style="padding-left: 5px">
+                          <a class="btn btn-sm btn-outline-success btn-round btn-icon" title="Borrar" (click)="openDialog(product)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                      </div>
+                    </div>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <a routerLink="/products/create" class="btn btn-primary btn-round">Crear Producto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
