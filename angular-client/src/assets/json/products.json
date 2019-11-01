@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "description": "Plancha",
+        "unitPrice": 1000,
+        "stock": 10
+    },
+    {
+        "id": 2,
+        "description": "Tv LG 49'",
+        "unitPrice": 25000,
+        "stock": 5
+    },
+    {
+        "id": 3,
+        "description": "Sony Playstation 4",
+        "unitPrice": 28000,
+        "stock": 15
+    },
+    {
+        "id": 4,
+        "description": "Nintendo Switch",
+        "unitPrice": 26500,
+        "stock": 10
+    },
+    {
+        "id": 5,
+        "description": "Xbox One",
+        "unitPrice": 27000,
+        "stock": 5
+    }
+]

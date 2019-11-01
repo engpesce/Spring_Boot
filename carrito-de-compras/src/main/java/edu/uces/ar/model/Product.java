@@ -10,9 +10,9 @@ import javax.persistence.Id;
 public class Product {
 
 	private @Id @GeneratedValue Long id;
-	private String name;
 	private String description;
-	private BigDecimal price;
+	private BigDecimal unitPrice;
+	private Integer stock;
 	
 	public Product() {
 		super();
@@ -25,14 +25,6 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -41,12 +33,20 @@ public class Product {
 		this.description = description;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 
 }
