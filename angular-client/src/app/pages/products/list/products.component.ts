@@ -10,6 +10,7 @@ import { ProductsService } from '../service/products.service';
 
 export class ProductsComponent implements OnInit{
     public products: ProductDTO[] = [];
+    public errorMsg: string;
 
     constructor(private productsService: ProductsService){
     }
@@ -32,17 +33,20 @@ export class ProductsComponent implements OnInit{
       );
     }
 
+  remove(product: ProductDTO): void {
+      this.productsService.delete(product.id).subscribe(
+        response => {
+          this.initialize();
+        },
+        error => {
+          this.errorMsg = 'Ha ocurrido un problema borrando el producto: ' + error.error;
+          console.error(error);
+        }
 
-    openDialog(product: ProductDTO): void {
-        /*const dialogRef = this.dialog.open(AcreedorDeleteComponent, {
-          width: '400px',
-          data: { acreedor: acreedor }
-        });
-    
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.validateDeletion(result);
-          }
-        });*/
-      }
+      );
+    }
+
+    cleanNotification(){
+      this.errorMsg = undefined;
+    }
 }

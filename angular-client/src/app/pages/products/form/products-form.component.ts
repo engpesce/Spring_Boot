@@ -13,7 +13,7 @@ export class ProductsFormComponent implements OnInit{
     
     public product: ProductDTO = new ProductDTO();
     public title: string;
-    public isEdition: boolean;
+    public errorMsg: string;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -29,11 +29,9 @@ export class ProductsFormComponent implements OnInit{
             this.product = resp;
     
             this.title = 'Edición de Producto: ' + this.product.id;
-            this.isEdition = true;
           });
         } else {
           this.title = 'Alta de Producto';
-          this.isEdition = false;
         }
     }
 
@@ -44,10 +42,10 @@ export class ProductsFormComponent implements OnInit{
       if (id) {
         this.productsService.update(this.product).subscribe(
           response => {
-            //this.router.navigate(['/products']);
-            this.router.navigateByUrl('http://localhost:4200/products');
+            this.router.navigate(['/products']);
           },
           error => {
+            this.errorMsg = 'Ha ocurrido un problema actualizando el producto: ' + error.error;
             console.error(error);
           });
 
@@ -57,9 +55,14 @@ export class ProductsFormComponent implements OnInit{
             this.router.navigate(['/products']);
           },
           error => {
+            this.errorMsg = 'Ha ocurrido un problema guardando el producto: ' + error.error;
             console.error(error);
           });
       } 
 
     } 
+
+    cleanNotification(){
+      this.errorMsg = undefined;
+    }
 }

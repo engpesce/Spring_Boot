@@ -15,4 +15,5 @@ public interface ProductService {
 	
 	Long putProduct(ProductDTO product);
 	
+	void deleteProductById(Long id);
 }

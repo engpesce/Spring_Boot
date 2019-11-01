@@ -5,6 +5,15 @@
         <h4 class="card-title">Productos</h4>
       </div>
       <div class="card-body">
+
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show">
+          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="cleanNotification()">
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <span>
+            <b> Error - </b> {{errorMsg}}</span>
+        </div>
+
         <div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden;">
 
           <table class="table">
@@ -38,7 +47,7 @@
                           </a>
                       </div>
                       <div style="padding-left: 5px">
-                          <a class="btn btn-sm btn-outline-success btn-round btn-icon" title="Borrar" (click)="openDialog(product)">
+                          <a class="btn btn-sm btn-outline-success btn-round btn-icon" title="Borrar" (click)="remove(product)">
                               <i class="fa fa-trash"></i>
                             </a>
                       </div>

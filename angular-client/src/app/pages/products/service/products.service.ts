@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductDTO } from '../entity/product';
 import { SERVER_API_URL } from 'app/shared/app.constants';
@@ -27,16 +27,26 @@ export class ProductsService {
     }
 
     add(element: ProductDTO) {
-        return this.http.post<ProductDTO>(this.URL, element);
+
+        return this.http.post(this.URL, element, {headers: new HttpHeaders({
+            'Accept': 'text/html, application/xhtml+xml, */*'
+          }),
+          responseType: 'text'});
     }
 
     update(element: ProductDTO) {
         const url = `${this.URL}/${element.id}`;
-        return this.http.put<ProductDTO>(url, element);
+        return this.http.put(url, element, {headers: new HttpHeaders({
+            'Accept': 'text/html, application/xhtml+xml, */*'
+          }),
+          responseType: 'text'});
     }
 
     delete(id: number) {
         const url = `${this.URL}/${id}`;
-        return this.http.delete<ProductDTO>(url);
+        return this.http.delete(url, {headers: new HttpHeaders({
+            'Accept': 'text/html, application/xhtml+xml, */*'
+          }),
+          responseType: 'text'});
     }
 }

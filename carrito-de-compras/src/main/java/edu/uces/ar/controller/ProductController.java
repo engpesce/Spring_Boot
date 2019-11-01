@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,12 @@ public class ProductController {
 	public ResponseEntity<Object> postProduct(@Valid @RequestBody ProductDTO productDTO) {
 		Long id = service.putProduct(productDTO);
 		return new ResponseEntity<>("Product updated successfully. Id: " + id, HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping(value = "/products/{id}")
+	public ResponseEntity<Object> deleteProduct(@PathVariable long id) {
+		service.deleteProductById(id);
+		return new ResponseEntity<>("Product deleted successfully. Id: " + id, HttpStatus.OK);
 	}
 
 }
