@@ -19,7 +19,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' },*/
 
     { path: '/products',      title: 'Lista de Productos',icon:'nc-bullet-list-67',    class: '' },
-    { path: '/carts',         title: 'Carrito de Compras',icon:'nc-cart-simple', class: '' },
+    { path: '/cart',         title: 'Carrito de Compras',icon:'nc-cart-simple', class: '' },
 
 ];
 

@@ -10,6 +10,8 @@ import { NotificationsComponent } from '../../pages/notifications/notifications.
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { ProductsComponent } from 'app/pages/products/list/products.component';
 import { ProductsFormComponent } from 'app/pages/products/form/products-form.component';
+import { CartFormComponent } from 'app/pages/carts/form/cart-form.component';
+import { CartDetailComponent } from 'app/pages/carts/detail/cart-detail.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -21,8 +23,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
 
-    { path: 'products',       component: ProductsComponent },
+    { path: 'products',           component: ProductsComponent },
     { path: 'products/create',    component: ProductsFormComponent },
     { path: 'products/edit/:id',  component: ProductsFormComponent },
-    //{ path: 'carts',          component: CartComponent }
+    
+    { path: 'cart',          component: CartFormComponent },
+    { path: 'cart/detail',   component: CartDetailComponent },
 ];

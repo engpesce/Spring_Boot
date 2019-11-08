@@ -17,6 +17,9 @@ import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsComponent } from 'app/pages/products/list/products.component';
 import { ProductsFormComponent } from 'app/pages/products/form/products-form.component';
+import { CartFormComponent } from 'app/pages/carts/form/cart-form.component';
+import { CartDetailComponent } from 'app/pages/carts/detail/cart-detail.component';
+import { CartDialogComponent } from 'app/pages/carts/form/cart-dialog.component';
 
 @NgModule({
   imports: [
@@ -37,7 +40,11 @@ import { ProductsFormComponent } from 'app/pages/products/form/products-form.com
 
     ProductsComponent,
     ProductsFormComponent,
-  ]
+    CartFormComponent,
+    CartDetailComponent,
+    CartDialogComponent,
+  ],
+  entryComponents: [ CartDialogComponent ]
 })
 
 export class AdminLayoutModule {}
