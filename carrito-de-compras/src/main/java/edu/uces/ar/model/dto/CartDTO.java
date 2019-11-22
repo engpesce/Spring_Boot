@@ -2,6 +2,7 @@ package edu.uces.ar.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 public class CartDTO {
@@ -10,7 +11,7 @@ public class CartDTO {
 	private String fullName;
 	private String email;
 	private LocalDate creationDate;
-	private Set<ProductDTO> products;
+	private Set<ProductDTO> products = new HashSet<ProductDTO>();
 	private BigDecimal total;
 	private String status;
 	

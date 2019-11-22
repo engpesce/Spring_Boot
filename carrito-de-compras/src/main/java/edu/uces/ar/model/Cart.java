@@ -2,6 +2,7 @@ package edu.uces.ar.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,9 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cart {
@@ -20,11 +19,8 @@ public class Cart {
 	private String fullName;
 	private String email;
 	private LocalDate creationDate;
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "cart_product", 
-    joinColumns = { @JoinColumn(name = "fk_cart") }, 
-    inverseJoinColumns = { @JoinColumn(name = "fk_product") })
-	private Set<Product> products;
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<CartProduct> cartProduct;
 	private BigDecimal total;
 	private String status;
 	
@@ -65,13 +61,33 @@ public class Cart {
 	}
 
 	public Set<Product> getProducts() {
+		
+		Set<Product> products = new HashSet<>();
+		
+		if (getCartProduct() != null){
+			for (CartProduct cartProduct : this.getCartProduct()) {
+				products.add(cartProduct.getProduct());
+			}
+		}
 		return products;
 	}
-
+	
 	public void setProducts(Set<Product> products) {
-		this.products = products;
+		
+		if (products != null){
+			
+			this.setCartProduct(new HashSet<CartProduct>());
+			for (Product product : products) {
+				addProduct(product);
+			}
+		}
 	}
 
+	public void addProduct(Product product) {
+		this.getCartProduct().add(new CartProduct(new CartProductKey(this.getId(), product.getId()), this, product));
+		
+	}
+	
 	public BigDecimal getTotal() {
 		return total;
 	}
@@ -87,5 +103,38 @@ public class Cart {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
+	public Set<CartProduct> getCartProduct() {
+		return cartProduct;
+	}
+
+	public void setCartProduct(Set<CartProduct> cartProduct) {
+		this.cartProduct = cartProduct;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cart other = (Cart) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 }

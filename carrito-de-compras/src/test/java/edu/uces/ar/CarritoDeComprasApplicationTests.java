@@ -86,4 +86,14 @@ public class CarritoDeComprasApplicationTests {
 		System.out.println(carritos);
 	}
 
+	@Test
+	public void findByEmail(){
+		
+		//repo.findAll();
+		Optional<Cart> cart = repo.findByEmail("german@pesce.com");
+		
+		System.out.println(cart);
+	}
+	
 }
+

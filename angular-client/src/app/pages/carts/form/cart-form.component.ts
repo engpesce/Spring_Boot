@@ -35,17 +35,26 @@ export class CartFormComponent implements OnInit{
 
         if (cartCreatedId) {
           this.enableCreation = false;
-          this.cartService.getCartById(parseInt(cartCreatedId)).subscribe(resp => {
-            this.cart = resp;
-            this.title = 'Carrito de Compras Existente: ' + this.cart.id;
+          this.cartService.getCartById(parseInt(cartCreatedId)).subscribe(
+            resp => {
+              this.cart = resp;
+              this.title = 'Carrito de Compras Existente: ' + this.cart.id;
 
-            this.productService.getAllSimple().subscribe(
-              resp => {
-                this.products = resp;
-              }
-            );
+              this.productService.getAllSimple().subscribe(
+                resp => {
+                  this.products = resp;
+                },
+                error => {
+                  this.errorMsg = 'Ha ocurrido un problema obteniendo los productos del carrito: ' + error.error;
+                  console.error(error);
+                }
+              );
 
-          });
+            },
+            error => {
+              this.errorMsg = 'Ha ocurrido un problema obteniendo el carrito: ' + error.error;
+              console.error(error);
+            });
           
          
         } else {
@@ -56,12 +65,17 @@ export class CartFormComponent implements OnInit{
 
     onSubmit() {
 
-      this.cartService.createCart(this.cart).subscribe(resp => {
-        this.cart = resp;
-        this.title = 'Carrito de Compras Creado: ' + this.cart.id;
-        localStorage.setItem('cartCreatedId', this.cart.id.toString()); 
-        this.enableCreation = false;
-      });
+      this.cartService.createCart(this.cart).subscribe(
+        resp => {
+            this.cart = resp;
+            this.title = 'Carrito de Compras Creado: ' + this.cart.id;
+            localStorage.setItem('cartCreatedId', this.cart.id.toString()); 
+            this.enableCreation = false;
+          },
+          error => {
+            this.errorMsg = 'Ha ocurrido un problema creando el carrito: ' + error.error;
+            console.error(error);
+          });
 
     } 
 
@@ -79,14 +93,38 @@ export class CartFormComponent implements OnInit{
         
         let cartCreatedId: string = localStorage.getItem('cartCreatedId');  
         this.cartService.addProductToCart(parseInt(cartCreatedId), result).subscribe(
-            resp => {
-              this.cartService.getCartById(parseInt(cartCreatedId)).subscribe(resp => {
+          resp => {
+            this.cartService.getCartById(parseInt(cartCreatedId)).subscribe(
+              resp => {
                 this.cart = resp;
-              });
+              },
+              error => {
+                this.errorMsg = 'Ha ocurrido un problema obteniendo los datos del carrito: ' + error.error;
+                console.error(error);
+              }
+            );
+          },
+          error => {
+            this.errorMsg = 'Ha ocurrido un problema agregando el producto al carrito: ' + error.error;
+            console.error(error);
           }
         );
 
       });
 
     }
+
+    public remove(product){
+      let cartCreatedId: string = localStorage.getItem('cartCreatedId'); 
+
+      this.cartService.delete(parseInt(cartCreatedId), product.id).subscribe(
+        resp => {
+          this.cart = resp;
+        },
+        error => {
+          this.errorMsg = 'Ha ocurrido un problema actualizando el producto: ' + error.error;
+          console.error(error);
+        });
+    }
+
 }

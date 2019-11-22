@@ -4,7 +4,7 @@ import javax.validation.constraints.Min;
 
 public class CartProductDTO {
 
-	private Long productId;
+	private Long id;
 	@Min(1)
 	private Integer quantity;
 	
@@ -12,12 +12,12 @@ public class CartProductDTO {
 		super();
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Integer getQuantity() {
