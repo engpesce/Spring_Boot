@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartDTO } from '../entity/cart';
 import { CartService } from '../service/cart.service';
@@ -14,7 +14,7 @@ import { CartProductDTO } from '../entity/cartProduct';
     templateUrl: 'cart-form.component.html'
 })
 
-export class CartFormComponent implements OnInit{
+export class CartFormComponent implements OnInit, AfterViewInit{
     
     public cart: CartDTO = new CartDTO();
     public products: ProductDTO[] = [];
@@ -63,21 +63,71 @@ export class CartFormComponent implements OnInit{
         }
     }
 
+    ngAfterViewInit(){
+      
+    }
+
     onSubmit() {
 
-      this.cartService.createCart(this.cart).subscribe(
+      this.cartService.checkoutCart(this.cart.id).subscribe(
         resp => {
+            this.title = this.cart.fullName + ': Su compra se ha completado con éxito. A la brevedad le enviaremos el estado de su solicitud.';
+            localStorage.removeItem('cartCreatedId'); 
+            this.enableCreation = true;
+          },
+          error => {
+
+            if (error.status > 300){
+              this.errorMsg = 'Ha ocurrido un problema realizando el chexkuot del carrito: ' + error.error;
+              console.error(error);
+            } else {
+              this.title = this.cart.fullName + ': Su compra se ha completado con éxito. A la brevedad le enviaremos el estado de su solicitud.';
+              localStorage.removeItem('cartCreatedId'); 
+              this.enableCreation = true;
+            }
+            
+          });
+
+    } 
+
+    createCart(){
+      let cartCreatedId: string = localStorage.getItem('cartCreatedId');  
+
+      if (cartCreatedId) {
+        this.router.navigate(['/cart']);
+      } else {
+
+        var cartToCreate = new CartDTO();
+        cartToCreate.fullName = this.cart.fullName;
+        cartToCreate.email = this.cart.email;
+
+        this.cartService.createCart(cartToCreate).subscribe(
+          resp => {
             this.cart = resp;
             this.title = 'Carrito de Compras Creado: ' + this.cart.id;
             localStorage.setItem('cartCreatedId', this.cart.id.toString()); 
             this.enableCreation = false;
+
+            this.productService.getAllSimple().subscribe(
+              resp => {
+                this.products = resp;
+                this.router.navigate(['/cart']);
+              },
+              error => {
+                this.errorMsg = 'Ha ocurrido un problema obteniendo los productos del carrito: ' + error.error;
+                console.error(error);
+              }
+            );
+           
           },
           error => {
             this.errorMsg = 'Ha ocurrido un problema creando el carrito: ' + error.error;
             console.error(error);
           });
+      }      
 
-    } 
+    }
+
 
     cleanNotification(){
       this.errorMsg = undefined;
@@ -119,7 +169,7 @@ export class CartFormComponent implements OnInit{
 
       this.cartService.delete(parseInt(cartCreatedId), product.id).subscribe(
         resp => {
-          this.cart = resp;
+          this.router.navigate(['/cart']);
         },
         error => {
           this.errorMsg = 'Ha ocurrido un problema actualizando el producto: ' + error.error;

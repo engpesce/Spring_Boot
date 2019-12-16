@@ -20,6 +20,7 @@ import { ProductsFormComponent } from 'app/pages/products/form/products-form.com
 import { CartFormComponent } from 'app/pages/carts/form/cart-form.component';
 import { CartDetailComponent } from 'app/pages/carts/detail/cart-detail.component';
 import { CartDialogComponent } from 'app/pages/carts/form/cart-dialog.component';
+import { ProcessCartsComponent } from 'app/pages/process/form/process-carts.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,8 @@ import { CartDialogComponent } from 'app/pages/carts/form/cart-dialog.component'
     CartFormComponent,
     CartDetailComponent,
     CartDialogComponent,
+
+    ProcessCartsComponent,
   ],
   entryComponents: [ CartDialogComponent ]
 })

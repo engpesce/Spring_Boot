@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{title}}</h4>
+      </div>
+      <div class="card-body">
+
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show">
+          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="cleanNotification()">
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <span>
+            <b> Error - </b> {{errorMsg}}</span>
+        </div>
+
+        <form (ngSubmit)="onSubmit()">
+
+
+          <div *ngIf="report.totalCartsProcessed" class="table-responsive" style="overflow-x: hidden; overflow-y: hidden;">
+
+            <table class="table">
+              <thead class=" text-primary">
+                <th>
+                  Total de Carritos Procesados
+                </th>
+                <th>
+                  Total de Carritos en Error
+                </th>
+                <th>
+                  Ganancia
+                </th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color: green;"><strong>{{report.totalCartsProcessed}}</strong></td>
+                  <td style="color: red;"><strong>{{report.totalCartsFailed }}</strong></td>
+                  <td style="color:royalblue;"><strong>{{report.profit}}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="row" style="padding: 20px">
+              <div class="col-md-12">
+                <div class="table-responsive" style="overflow-x: hidden; overflow-y: hidden;">
+                  <h3 style="color: orange;"> 
+                    <b> Productos sin stock para completar los pedidos:  </b>
+                  </h3>
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Id
+                      </th>
+                      <th>
+                        Descripción
+                      </th>
+                      <th>
+                        Precio Unitario
+                      </th>
+                      <th>
+                        Stock Actual
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let product of report.withoutStockProducts">
+                        <td>{{product.id}}</td>
+                        <td>{{product.description }}</td>
+                        <td>{{product.unitPrice}}</td>
+                        <td style="color: orange;"><strong>{{product.stock}}</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="button" routerLink="/dashboard" class="btn btn-secundary btn-round">Cancelar</button>
+            </div>
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round">Procesar!</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

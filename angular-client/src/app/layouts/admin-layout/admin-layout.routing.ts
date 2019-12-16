@@ -12,6 +12,7 @@ import { ProductsComponent } from 'app/pages/products/list/products.component';
 import { ProductsFormComponent } from 'app/pages/products/form/products-form.component';
 import { CartFormComponent } from 'app/pages/carts/form/cart-form.component';
 import { CartDetailComponent } from 'app/pages/carts/detail/cart-detail.component';
+import { ProcessCartsComponent } from 'app/pages/process/form/process-carts.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -29,4 +30,6 @@ export const AdminLayoutRoutes: Routes = [
     
     { path: 'cart',          component: CartFormComponent },
     { path: 'cart/detail',   component: CartDetailComponent },
+
+    { path: 'processCarts',   component: ProcessCartsComponent },
 ];
