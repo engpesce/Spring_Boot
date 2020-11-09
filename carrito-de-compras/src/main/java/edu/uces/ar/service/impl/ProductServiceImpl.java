@@ -1,5 +1,6 @@
 package edu.uces.ar.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import edu.uces.ar.model.Product;
 import edu.uces.ar.model.dto.ProductDTO;
 import edu.uces.ar.repository.ProductRepository;
 import edu.uces.ar.service.ProductService;
+import edu.uces.ar.service.business.exception.ProductInvalidException;
 import edu.uces.ar.service.business.exception.ProductNotFoundException;
 
 @Service
@@ -55,13 +57,30 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Long putProduct(ProductDTO productDTO) {
+	public ProductDTO putProduct(ProductDTO productDTO) {
 
+		if (productDTO == null) {
+			throw new ProductInvalidException("");
+		} else {
+			if (productDTO.getDescription() == null || productDTO.getDescription().isEmpty()) {
+				throw new ProductInvalidException("Product description is required");
+			}
+			
+			if (productDTO.getStock() <= 0) {
+				throw new ProductInvalidException("Product stock must be greater than 0");
+			}
+			
+			if (productDTO.getUnitPrice().compareTo(BigDecimal.ZERO) < 1 ) {
+				throw new ProductInvalidException("Product unit price must be greater than 0");
+			}
+		}
+		
 		Product product = new Product();
 		BeanUtils.copyProperties(productDTO, product);
 		product = productRepo.save(product);
+		BeanUtils.copyProperties(product, productDTO);
 		
-		return product.getId();
+		return productDTO;
 	}
 
 	@Override
@@ -69,6 +88,4 @@ public class ProductServiceImpl implements ProductService{
 		productRepo.deleteById(id);
 	}
 
-	
-	
 }
