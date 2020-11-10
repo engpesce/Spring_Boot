@@ -36,7 +36,7 @@ public class ProductosApplicationTests {
 		ProductDTO product = new ProductDTO();
 		product.setDescription("Raqueta de tenis");
 		product.setStock(10);
-		product.setUnitPrice(new BigDecimal("1500.50"));
+		product.setUnitPrice(new BigDecimal("1500.55"));
 		
 		List<ProductDTO> p = productService.getAllProducts();
 		ProductDTO dto = productService.putProduct(product);
